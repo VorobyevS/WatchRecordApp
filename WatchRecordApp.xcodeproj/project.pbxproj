@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		882ED855219DABF600E6562F /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882ED853219DABF600E6562F /* RecordTableViewCell.swift */; };
+		882ED856219DABF600E6562F /* RecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 882ED854219DABF600E6562F /* RecordTableViewCell.xib */; };
 		884A0301219DA15F0089B13D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884A0300219DA15F0089B13D /* AppDelegate.swift */; };
 		884A0303219DA15F0089B13D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884A0302219DA15F0089B13D /* ViewController.swift */; };
 		884A0306219DA15F0089B13D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 884A0304219DA15F0089B13D /* Main.storyboard */; };
@@ -65,6 +67,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		882ED853219DABF600E6562F /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
+		882ED854219DABF600E6562F /* RecordTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordTableViewCell.xib; sourceTree = "<group>"; };
 		884A02FD219DA15F0089B13D /* WatchRecordApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchRecordApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		884A0300219DA15F0089B13D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		884A0302219DA15F0089B13D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 			children = (
 				884A0300219DA15F0089B13D /* AppDelegate.swift */,
 				884A0302219DA15F0089B13D /* ViewController.swift */,
+				882ED853219DABF600E6562F /* RecordTableViewCell.swift */,
+				882ED854219DABF600E6562F /* RecordTableViewCell.xib */,
 				884A0304219DA15F0089B13D /* Main.storyboard */,
 				884A0307219DA1600089B13D /* Assets.xcassets */,
 				884A0309219DA1600089B13D /* LaunchScreen.storyboard */,
@@ -263,6 +269,7 @@
 			files = (
 				884A030B219DA1600089B13D /* LaunchScreen.storyboard in Resources */,
 				884A0308219DA1600089B13D /* Assets.xcassets in Resources */,
+				882ED856219DABF600E6562F /* RecordTableViewCell.xib in Resources */,
 				884A0306219DA15F0089B13D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,6 +300,7 @@
 			files = (
 				884A0303219DA15F0089B13D /* ViewController.swift in Sources */,
 				884A0301219DA15F0089B13D /* AppDelegate.swift in Sources */,
+				882ED855219DABF600E6562F /* RecordTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
