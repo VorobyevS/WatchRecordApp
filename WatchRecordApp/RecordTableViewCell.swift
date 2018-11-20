@@ -9,6 +9,7 @@
 import UIKit
 
 final class RecordTableViewCell: UITableViewCell {
+    
     static let indetifier = "cell"
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!

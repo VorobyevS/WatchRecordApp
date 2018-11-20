@@ -21,13 +21,6 @@ final class InterfaceController: WKInterfaceController {
     //MARK: Outlets
     @IBOutlet private weak var image: WKInterfaceImage!
     
-    //MARK: Lifecycle
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-        
-        // Configure interface objects here.
-    }
-    
     override func willActivate() {
         super.willActivate()
         if (WCSession.isSupported()) {
