@@ -8,9 +8,7 @@
 
 import UIKit
 
-final class RecordTableViewCell: UITableViewCell {
-    
-    static let indetifier = "cell"
+final class RecordTableViewCell: UITableViewCell {    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     var deleteAction: (()->Void)?

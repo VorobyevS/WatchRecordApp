@@ -22,6 +22,10 @@
 		884A0326219DA1610089B13D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884A0325219DA1610089B13D /* ExtensionDelegate.swift */; };
 		884A0328219DA1610089B13D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884A0327219DA1610089B13D /* NotificationController.swift */; };
 		884A032A219DA1610089B13D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884A0329219DA1610089B13D /* Assets.xcassets */; };
+		AB47CEC221A5326100C32B63 /* WCSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB47CEC121A5326100C32B63 /* WCSession+Extension.swift */; };
+		AB47CEC321A5326100C32B63 /* WCSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB47CEC121A5326100C32B63 /* WCSession+Extension.swift */; };
+		AB47CEC521A537E200C32B63 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB47CEC421A537E200C32B63 /* FileManager+Extension.swift */; };
+		AB47CEC621A537E200C32B63 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB47CEC421A537E200C32B63 /* FileManager+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +91,8 @@
 		884A0329219DA1610089B13D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		884A032B219DA1610089B13D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		884A032C219DA1610089B13D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		AB47CEC121A5326100C32B63 /* WCSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCSession+Extension.swift"; sourceTree = "<group>"; };
+		AB47CEC421A537E200C32B63 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,8 @@
 				884A0300219DA15F0089B13D /* AppDelegate.swift */,
 				884A0302219DA15F0089B13D /* ViewController.swift */,
 				882ED853219DABF600E6562F /* RecordTableViewCell.swift */,
+				AB47CEC121A5326100C32B63 /* WCSession+Extension.swift */,
+				AB47CEC421A537E200C32B63 /* FileManager+Extension.swift */,
 				882ED854219DABF600E6562F /* RecordTableViewCell.xib */,
 				884A0304219DA15F0089B13D /* Main.storyboard */,
 				884A0307219DA1600089B13D /* Assets.xcassets */,
@@ -299,7 +307,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				884A0303219DA15F0089B13D /* ViewController.swift in Sources */,
+				AB47CEC521A537E200C32B63 /* FileManager+Extension.swift in Sources */,
 				884A0301219DA15F0089B13D /* AppDelegate.swift in Sources */,
+				AB47CEC221A5326100C32B63 /* WCSession+Extension.swift in Sources */,
 				882ED855219DABF600E6562F /* RecordTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,7 +319,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				884A0328219DA1610089B13D /* NotificationController.swift in Sources */,
+				AB47CEC621A537E200C32B63 /* FileManager+Extension.swift in Sources */,
 				884A0326219DA1610089B13D /* ExtensionDelegate.swift in Sources */,
+				AB47CEC321A5326100C32B63 /* WCSession+Extension.swift in Sources */,
 				884A0324219DA1610089B13D /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

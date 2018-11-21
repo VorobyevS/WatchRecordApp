@@ -11,18 +11,23 @@ import AVFoundation
 import WatchConnectivity
 
 final class ViewController: UIViewController {
-    private var items = [AVURLAsset]()
-    private let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    private var player : AVAudioPlayer?
     
-    //MARK: Outlets
+    //MARK: Constants
+    private struct Constants {
+        static let nibName = "RecordTableViewCell"
+        static let cellName = String(describing: RecordTableViewCell.self)
+    }
+    
+    //MARK: Properties
+    private var items = [AVURLAsset]()
+    private var player : AVAudioPlayer?
     @IBOutlet private weak var recordsTableView: UITableView!
     
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         commonInit()
-        recordsTableView.register(UINib(nibName: "RecordTableViewCell", bundle: nil), forCellReuseIdentifier: RecordTableViewCell.indetifier)
+        recordsTableView.register(UINib(nibName: Constants.nibName, bundle: nil), forCellReuseIdentifier: Constants.cellName)
         if (WCSession.isSupported()) {
             let session = WCSession.default
             session.delegate = self
@@ -31,12 +36,14 @@ final class ViewController: UIViewController {
     }
     
     private func commonInit() {
-        guard let tracks = try? FileManager.default.contentsOfDirectory(atPath: documentsDirectory.path) else { return }
+        guard let tracks = try? FileManager.default.contentsOfDirectory(atPath: FileManager.documentDirectory.path) else { return }
         for item in tracks where item.hasSuffix(".m4a") {
-            items.append(AVURLAsset(url: URL(fileURLWithPath: documentsDirectory.appendingPathComponent(item).path)))
+            let fullURL = FileManager.documentDirectory.appendingPathComponent(item)
+            items.append(AVURLAsset(url: fullURL))
         }
     }
     
+    //MARK: Auxilary Methods
     private func getFileNameFrom(URL: URL)-> String {
         return String(URL.path.split(separator: "/").last!)
     }
@@ -50,17 +57,17 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = recordsTableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.indetifier) as! RecordTableViewCell
-        cell.nameLabel.text = FileManager.default.displayName(atPath: items[indexPath.row].url.path)
-        let totalSeconds = CMTimeGetSeconds(items[indexPath.row].duration)
+        let cell = recordsTableView.dequeueReusableCell(withIdentifier: Constants.cellName) as! RecordTableViewCell
+        let item = items[indexPath.row]
+        cell.nameLabel.text = getFileNameFrom(URL: item.url)
+        let totalSeconds = CMTimeGetSeconds(item.duration)
         cell.durationLabel.text = "Duration: " +
                                             "\(Int(totalSeconds.truncatingRemainder(dividingBy: 3600)) / 60):" +
                                             "\(Int(ceil(totalSeconds.truncatingRemainder(dividingBy: 60))))"
         cell.deleteAction = {[weak self] in
             guard let `self` = self else {return}
-            do{
-                let fileName = self.getFileNameFrom(URL: self.items[indexPath.row].url)
-                try FileManager.default.removeItem(at: self.documentsDirectory.appendingPathComponent(fileName))
+            do {
+                try FileManager.default.removeItem(at: self.items[indexPath.row].url)
                 self.items.remove(at: indexPath.row)
                 self.recordsTableView.reloadData()
             }
@@ -73,11 +80,14 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let fileName = self.getFileNameFrom(URL: items[indexPath.row].url)
-        let fileUrl = documentsDirectory.appendingPathComponent(fileName)
-        
-        player = try? AVAudioPlayer.init(contentsOf: fileUrl)
-        player?.play()
+        let fileUrl = items[indexPath.row].url
+        do {
+            player = try AVAudioPlayer(contentsOf: fileUrl)
+            player?.play()
+        }
+        catch {
+            print(error)
+        }
     }
 }
 
@@ -98,13 +108,13 @@ extension ViewController : WCSessionDelegate {
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         do {
             let fileName = self.getFileNameFrom(URL: file.fileURL)
-            let fileURL = documentsDirectory.appendingPathComponent(fileName)
+            let fileURL = FileManager.documentDirectory.appendingPathComponent(fileName)
             try FileManager.default.moveItem(atPath: file.fileURL.path, toPath: fileURL.path)
-            items.append(AVURLAsset.init(url: fileURL))
+            items.append(AVURLAsset(url: fileURL))
             DispatchQueue.main.async { [weak self] in
                 self?.recordsTableView.reloadData()
             }
-            WCSession.default.sendMessage(["file": fileName],
+            WCSession.default.sendMessage([WCSession.SesionKeys.fileName.rawValue: fileName],
                                           replyHandler: nil,
                                           errorHandler: nil)
         }

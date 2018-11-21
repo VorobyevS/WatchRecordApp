@@ -7,20 +7,23 @@
 //
 
 import WatchKit
-import Foundation
 import AVFoundation
 import WatchConnectivity
 
 
 final class InterfaceController: WKInterfaceController {
-    private var isRecording = false
-    private var recorder:AVAudioRecorder!
-    private var recordURL: URL!
-    let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     
-    //MARK: Outlets
+    //MARK: Constants
+    private struct Constants {
+        static let recorderOptions = [ AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                                       AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
+    }
+    
+    //MARK: Properties
+    private var recorder:AVAudioRecorder!
     @IBOutlet private weak var image: WKInterfaceImage!
     
+    //MARK: Lifecycle
     override func willActivate() {
         super.willActivate()
         if (WCSession.isSupported()) {
@@ -37,17 +40,14 @@ final class InterfaceController: WKInterfaceController {
     
     //MARK: Actions
     @IBAction private func startStopButtonClicked() {
-        isRecording ? stopRecording() : startRecording()
+        recorder == nil ? startRecording() : stopRecording()
     }
     
+    //MARK: Recordin Methods
     private func startRecording() {
-        guard recorder == nil else { return }
-        recordURL = path.appendingPathComponent(getTitleString())
-        let settings = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
+        let recordURL = FileManager.documentDirectory.appendingPathComponent(getTitleString())
         do {
-            recorder = try AVAudioRecorder.init(url: recordURL, settings: settings)
+            recorder = try AVAudioRecorder.init(url: recordURL, settings: Constants.recorderOptions)
             recorder.delegate = self
             recorder.record()
             setRecordImage(play: true)
@@ -64,11 +64,6 @@ final class InterfaceController: WKInterfaceController {
         setRecordImage(play: false)
     }
     
-    private func sendFile() {
-        guard let record = recordURL else { return }
-        WCSession.default.transferFile(record, metadata: nil)
-    }
-    
     private func getTitleString() -> String {
         let date = Date()
         let formater = DateFormatter()
@@ -78,7 +73,6 @@ final class InterfaceController: WKInterfaceController {
     
     private func setRecordImage(play: Bool) {
         play ? image.setImageNamed("stop") : image.setImageNamed("play")
-        isRecording = play
     }
     
 }
@@ -90,14 +84,14 @@ extension InterfaceController : WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        guard let fileName = message["file"] as? String else { return }
+        guard let fileName = message[WCSession.SesionKeys.fileName.rawValue] as? String else { return }
         DispatchQueue.main.async {[weak self] in
             self?.presentAlert(withTitle: "File transfered",
                                message: fileName,
                                preferredStyle: .alert,
                                actions: [WKAlertAction(title: "Ok", style: .cancel, handler: {})])
         }
-        try? FileManager.default.removeItem(at: path.appendingPathComponent(fileName))
+        try? FileManager.default.removeItem(at: FileManager.documentDirectory.appendingPathComponent(fileName))
     }
 }
 
@@ -105,7 +99,7 @@ extension InterfaceController : WCSessionDelegate {
 extension InterfaceController: AVAudioRecorderDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if flag {
-            sendFile()
+            WCSession.default.transferFile(recorder.url, metadata: nil)
         }
     }
 }
